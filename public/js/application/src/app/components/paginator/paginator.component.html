@@ -1,0 +1,44 @@
+
+<ul class="pager" *ngIf="simple; else pagination">
+  <li>
+    <a href="#" (click)="onPageChange($event, activePage - 1)" *ngIf="!prevDisabled; else simplePrevArrow">Previous</a>
+    <ng-template #simplePrevArrow>
+      <span>Previous</span>
+    </ng-template>
+  </li>
+  <li>
+    <a (click)="onPageChange($event, activePage + 1)" href="#" *ngIf="!nextDisabled; else simpleNextArrow">Next</a>
+    <ng-template #simpleNextArrow>
+      <span>Next</span>
+    </ng-template>
+  </li>
+</ul>
+<p class="text-center">{{ activePage }} of {{ pages.length }}</p>
+
+<ng-template #pagination>
+  <ul class="pagination">
+    <li>
+      <a href="#" (click)="onPageChange($event, activePage - 1)" *ngIf="!prevDisabled; else prevArrow">&laquo;</a>
+      <ng-template #prevArrow>
+        <span>&laquo;</span>
+      </ng-template>
+    </li>
+  
+    <li *ngFor="let page of pages" [ngClass]="{'active': page == activePage}">
+      <a href="#" *ngIf="page != activePage; else pageNumber" (click)="onPageChange($event, page)">
+        {{ page }}
+      </a>
+      <ng-template #pageNumber>
+        <span>{{ page }}</span>
+      </ng-template>
+    </li>
+  
+    <li>
+      <a (click)="onPageChange($event, activePage + 1)" href="#" *ngIf="!nextDisabled; else nextArrow">&raquo;</a>
+      <ng-template #nextArrow>
+        <span>&raquo;</span>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>
+

@@ -1,6 +1,50 @@
 /node_modules
 /public/hot
 /public/storage
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/public/js/application/dist
+/public/js/application/tmp
+/public/js/application/out-tsc
+
+# dependencies
+/public/js/application/node_modules
+
+# IDEs and editors
+/public/js/application/.idea
+/public/js/application.project
+/public/js/application.classpath
+/public/js/application.c9/
+/public/js/application*.launch
+/public/js/application.settings/
+/public/js/application*.sublime-workspace
+
+# IDE - VSCode
+/public/js/application.vscode/*
+!/public/js/application/.vscode/settings.json
+!/public/js/application/.vscode/tasks.json
+!/public/js/application/.vscode/launch.json
+!/public/js/application/.vscode/extensions.json
+
+# misc
+/public/js/application/.sass-cache
+/public/js/application/connect.lock
+/public/js/application/coverage
+/public/js/application/libpeerconnection.log
+/public/js/application/npm-debug.log
+/public/js/application/testem.log
+/public/js/application/typings
+
+# e2e
+/public/js/application/e2e/*.js
+/public/js/application/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
 /storage/*.key
 /vendor
 /.idea
@@ -10,3 +54,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+/.vscode

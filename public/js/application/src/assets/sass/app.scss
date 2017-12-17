@@ -5,5 +5,15 @@
 // Variables
 @import "variables";
 
+
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Font awesome
+@import '~font-awesome/scss/font-awesome';
+
+@import "components/book";
+@import "components/shelve";
+
+@import "utilities/spacing";
+@import "utilities/icon";

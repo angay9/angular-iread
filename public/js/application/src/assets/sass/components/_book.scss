@@ -1,0 +1,20 @@
+.book {
+    &__row {
+        @media screen and (min-width: $screen-sm) {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    &__thumbnail {
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin-bottom: 0;
+
+        &__footer {
+            border-top: 1px solid $color-gray1;
+        }
+    }
+}

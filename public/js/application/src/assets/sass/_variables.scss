@@ -1,3 +1,6 @@
+// Font awesome
+$fa-font-path: '/assets/fonts/vendor/font-awesome';
+
 
 // Body
 $body-bg: #f5f8fa;
@@ -15,6 +18,7 @@ $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;
 $brand-danger: #bf5329;
+$color-gray1: #dddddd;
 
 // Typography
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
@@ -36,3 +40,9 @@ $input-color-placeholder: lighten($text-color, 30%);
 
 // Panels
 $panel-default-heading-bg: #fff;
+
+// Spacing
+$spacing-xs: 10px;
+$spacing-sm: 15px;
+$spacing-md: 20px;
+$spacing-lg: 30px;

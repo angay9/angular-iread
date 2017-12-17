@@ -11,6 +11,14 @@
 |
 */
 
+// App\User::create([
+//     'name'  =>  'John Doe',
+//     'email' =>  'john@doe.com',
+//     'password'  =>  bcrypt('password'),
+// ]);
+
+Auth::loginUsingId(1);
+
 Route::get('/', function () {
     return view('welcome');
 });

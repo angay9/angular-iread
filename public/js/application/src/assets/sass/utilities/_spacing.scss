@@ -1,0 +1,27 @@
+$spacings: (
+    'xs': $spacing-xs,
+    'sm': $spacing-sm,
+    'md': $spacing-md,
+    'lg': $spacing-lg
+);
+
+@each $key, $spacing in $spacings {
+    
+    .margin-#{$key} {
+        margin: $spacing;
+    }
+
+    .padding-#{$key} {
+        padding: $spacing;
+    }
+
+    @each $position in ('top', 'left', 'right', 'bottom') {
+        .margin-#{$position}-#{$key} {
+            margin-#{$position}: $spacing;
+        }
+
+        .padding-#{$position}-#{$key} {
+            padding-#{$position}: $spacing;
+        }
+    }
+}
