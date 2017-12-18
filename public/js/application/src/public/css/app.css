@@ -11429,11 +11429,32 @@ button.close {
 }
 
 .book__thumbnail__footer {
+  margin-top: auto;
   border-top: 1px solid #dddddd;
 }
 
 .shelve__search-form {
   margin-bottom: 20px;
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+}
+
+.rating__star {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+  font-size: 35px;
+}
+
+.rating__star:hover:before,
+.rating__star:hover ~ .rating__star:before {
+  cursor: pointer;
+  content: "\2605";
+  position: absolute;
 }
 
 .margin-xs {

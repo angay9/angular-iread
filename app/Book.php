@@ -8,6 +8,19 @@ class Book extends Model
 {
     protected $guarded = [];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            if ($model->publish_date) {
+                $model->attributes['publish_date'] = date('Y-m-d', strtotime($model->publish_date));
+            }
+           
+        });
+    }
+
+
     public function getAuthorsAttribute() 
     {
         return explode(',', $this->attributes['authors']);
@@ -36,6 +49,15 @@ class Book extends Model
         }
 
         $this->attributes['categories'] = $categories;
+    }
+
+    public function setPublishDateAttribue($date)
+    {
+        $isValidDate = (bool)strtotie($date);
+        
+        if ($isValidDate) {
+            $this->attributes['publish_date'] = $date;
+        }
     }
 
 }

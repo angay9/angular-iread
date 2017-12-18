@@ -14,19 +14,18 @@ export class Book extends Model {
     thumbnail: '';
 
     constructor(attributes: Object) {
-        super(attributes); 
+        super(attributes);
 
         this.id = attributes['id'];
         this.external_id = attributes['external_id'];
-        this.title = attributes['title'];
+        this.title = attributes['title'] ? attributes['title'] : '';
         this.authors = attributes['authors'] ? attributes['authors'] : [];
-        this.description = attributes['description'];
-        this.preview_link = attributes['preview_link'];
+        this.description = attributes['description'] ? attributes['description'] : '';
+        this.preview_link = attributes['preview_link'] ? attributes['preview_link'] : '';
         this.categories = attributes['categories'] ? attributes['categories'] : [];
-        this.page_count = attributes['page_count'];
-        this.publish_date = attributes['publish_date'];
-        this.publisher = attributes['publisher'];
-        this.thumbnail = attributes['thumbnail'];
-        
+        this.page_count = attributes['page_count'] ? attributes['page_count'] : 0;
+        this.publish_date = attributes['publish_date'] ? attributes['publish_date'] : '';
+        this.publisher = attributes['publisher'] ? attributes['publisher'] : '';
+        this.thumbnail = attributes['thumbnail'] ? attributes['thumbnail'] : '';
     }
 }

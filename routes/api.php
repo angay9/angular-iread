@@ -24,5 +24,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 
-Route::post('/books/read/save/{book?}', 'BookController@saveRead');
+Route::post('/books/read/save/{book}', 'BookController@saveRead');
+Route::post('/books/rate/{book}', 'BookController@rate');
 

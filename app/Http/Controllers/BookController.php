@@ -11,11 +11,10 @@ class BookController extends Controller
 {
     public function saveRead(Request $request, Guard $auth, $bookExtId)
     {
-        $book = Book::where(['external_id' => $bookExtId])->first();
-
-        if (!$book) {
-            $book = Book::create($request->get('book'));
-        }
+        $book = Book::firstOrCreate(
+            ['external_id' => $bookExtId],
+            $request->get('book')
+        );
         
         $user = $auth->user();
 
@@ -37,5 +36,33 @@ class BookController extends Controller
             'success'   =>  true
         ];
 
-    }   
+    }
+
+    public function rate(Request $request, Guard $auth, $bookExtId)
+    {
+        $book = Book::firstOrCreate(
+            ['external_id' => $bookExtId],
+            $request->get('book')
+        );
+        
+        $user = $auth->user();
+
+        $userBook = UserBook::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'book_id' => $book->id,
+                'action_name' => UserBook::ACTION_RATED,
+            ],
+            [
+                'user_id' => $user->id,
+                'book_id' => $book->id,
+                'action_name' => UserBook::ACTION_RATED,
+                'action_value' => (int)$request->get('rating')
+            ]
+        );
+
+        return [
+            'success' => true
+        ];
+    }
 }

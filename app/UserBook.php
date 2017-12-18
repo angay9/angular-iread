@@ -8,6 +8,7 @@ class UserBook extends Model
 {
     const ACTION_READ = 'read';
     const ACTION_IN_PROGRESS = 'in_progress';
+    const ACTION_RATED = 'rated';
 
     protected $guarded = [];
 }
