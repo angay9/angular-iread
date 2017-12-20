@@ -1,3 +1,26 @@
 <div class="container">
     <h3>Dashboard</h3>
+    <hr>
+    <h4>Your recent activity</h4>
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <ng-container *ngFor="let activity of userActivity">
+
+                <div class="thumbnail book__thumbnail margin-bottom-md" *ngIf="activity.human_action_name">
+                    <img [src]="activity.book.thumbnail" class="img-responsive center-block" alt="">
+                    <div class="caption text-center">
+                        <!-- <h4 class="list-group-item-heading">
+                            {{ activity.human_action_name }}
+                        </h4> -->
+                        <h5>
+                             {{ activity.human_action_name }} <strong>{{ activity.book.title }}</strong>
+                        </h5>
+                        <a [href]="activity.book.preview_link" target="_blank" class="btn btn-primary">Preview</a>
+
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
 </div>

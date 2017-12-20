@@ -1,5 +1,6 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
+
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -13,7 +14,7 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav" *ngIf="authService.isLoggedIn() | async">
+            <ul class="nav navbar-nav" *ngIf="authService.isUserPresent()">
                 <li class="">
                     <a routerLink="/dashboard" routerActiveLink="active">Dashboard</a>
                 </li>
@@ -27,14 +28,14 @@
 
             <ul class="nav navbar-nav navbar-right">
 
-                <li *ngIf="!authService.isLoggedIn() | async">
-                    <a href="#" routerLink="login">Login</a>
+                <li>
+                    <a href="#" routerLink="login" *ngIf="!authService.isUserPresent()">Login</a>
                 </li>
-                <li *ngIf="!authService.isLoggedIn() | async">
-                    <a href="#" routerLink="register">Register</a>
+                <li >
+                    <a href="#" routerLink="register" *ngIf="!authService.isUserPresent()">Register</a>
                 </li>
-                <li *ngIf="authService.isLoggedIn() | async">
-                    <a href="#" (click)="logout($event)">Logout</a>
+                <li>
+                    <a href="#" (click)="logout($event)" *ngIf="authService.isUserPresent()">Logout</a>
                 </li>
             </ul>
         </div>

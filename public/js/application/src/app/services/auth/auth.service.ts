@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
@@ -7,46 +7,52 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
-    constructor(protected http: Http) { }
+    constructor(protected http: HttpClient) { }
 
     login(credentials) {
         return this.http.post(`http://angular-iread.local/api/login`, {
             email: credentials['email'],
             password: credentials['password']
-        }).do(res => {
+        }).do((res:any) => {
+
             this.setUserDataToStorage(
-                res.json().data.user,
-                res.json().data.token
+                res.data.user,
+                res.data.token
             );
         });;
     }
 
     logout() {
-        return this.http.post(`http://angular-iread.local/api/logout`, {token: this.getToken()})
+        return this.http.post(`http://angular-iread.local/api/logout`, {token: AuthService.getToken()})
             .do(res => {
                 this.removeUserDataFromStorage();
             })
         ;
     }
 
+
     register(data) {
         return this.http.post(`http://angular-iread.local/api/register`, data)
-            .do(res => {
+            .do((res:any) => {
                 this.setUserDataToStorage(
-                    res.json().data.user,
-                    res.json().data.token
+                    res.data.user,
+                    res.data.token
                 );
-
             })
         ;
     }
 
 
-    getToken() {
+    static getToken() {
         return localStorage.getItem('jwtToken');
     }
 
+    getToken() {
+        return AuthService.getToken();
+    }
+
     getUser() {
+
         let user = localStorage.getItem('user');
         if (!user) {
             return null;
@@ -55,17 +61,19 @@ export class AuthService {
         return JSON.parse(user);
     }
 
+    isUserPresent() {
+        return !!this.getUser();
+    }
+
     isLoggedIn(): Observable<boolean> {
-        let token = this.getToken();
+
+        let token = AuthService.getToken();
 
         if (!token) {
             return Observable.of(false);
         }
 
-        let headers = new Headers({ 'Authorization': 'Bearer ' + token });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.get('http://angular-iread.local/api/auth/check', options)
+        return this.http.get('http://angular-iread.local/api/auth/check')
             .map(res => {
                 return true;
             }, err => {
@@ -74,6 +82,18 @@ export class AuthService {
         ;
 
         // return user !== null && token !== null;
+    }
+
+    loginUsingToken() {
+        return this.http.get('http://angular-iread.local/api/auth/check')
+            .map((res:any) => {
+                this.setUserDataToStorage(res.user, res.token);
+
+                return true;
+            }, err => {
+                return false;
+            })
+        ;
     }
 
     protected setUserDataToStorage(user: Object, jwtToken: string) {

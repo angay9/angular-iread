@@ -30,11 +30,11 @@ export class ShelvesComponent implements OnInit {
 
     loadUserBooks() {
         this.booksService.getUserBooks()
-            .subscribe(res => {
-                let books = Array.prototype.slice.call(res.json().books);
+            .subscribe((res:any) => {
+
+                let books = Array.prototype.slice.call(res.books);
 
                 this.userBooks.items.items = books.map(book => new Book(book));
-
 
             }, err => {
 
@@ -47,12 +47,11 @@ export class ShelvesComponent implements OnInit {
         event.preventDefault();
 
         this.booksService.markAsRead(book, read)
-            .subscribe(res => {
-                let responseJson = res.json();
+            .subscribe((res:any) => {
                 book.setIsRead(read);
 
-                if (responseJson.user_book) {
-                    book.user_books.push(responseJson.user_book);
+                if (res.user_book) {
+                    book.user_books.push(res.user_book);
                 }
             }, err => {
                 alert('Error occured.');
@@ -63,12 +62,10 @@ export class ShelvesComponent implements OnInit {
         event.preventDefault();
 
         this.booksService.rate(book, rating)
-            .subscribe(res => {
+            .subscribe((res:any) => {
 
-                let responseJson = res.json();
-
-                if (responseJson.user_book) {
-                    book.user_books.push(responseJson.user_book);
+                if (res.user_book) {
+                    book.user_books.push(res.user_book);
                 }
 
                 book.setRating(rating);

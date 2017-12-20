@@ -39,4 +39,15 @@ class User extends Authenticatable
             'user_books'
         );
     }
+
+    public function latestActivity($recordsLimit = 20)
+    {
+        return $this
+            ->userBooks()
+            ->with('book')
+            ->orderBy('updated_at', 'DESC')
+            ->take($recordsLimit)
+            ->get()
+        ;
+    }
 }

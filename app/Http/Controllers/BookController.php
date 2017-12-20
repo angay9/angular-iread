@@ -104,7 +104,9 @@ class BookController extends Controller
                     ->select('book_id')
                 ;
             })
-            ->with('userBooks')
+            ->with(['userBooks' => function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }])
             ->get()
         ;
 
@@ -144,6 +146,16 @@ class BookController extends Controller
 
         return [
             'success' => true
+        ];
+    }
+
+    public function getActivity()
+    {
+        $user = auth()->user();
+
+        return [
+            'success'   =>  true,
+            'data'  =>  $user->latestActivity(20)
         ];
     }
 }

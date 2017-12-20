@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -26,6 +28,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthService } from './services/auth/auth.service';
 import { routes } from './routes/routes';
+import { RequestOptions } from '@angular/http';
+import { AuthHeaderOptions } from "./http/auth_header_options";
+import { AuthHeaderInterceptor } from "./http/auth_header_interceptor";
 
 @NgModule({
     declarations: [
@@ -42,6 +47,7 @@ import { routes } from './routes/routes';
     imports: [
         BrowserModule,
         HttpModule,
+        HttpClientModule,
         FormsModule,
         RouterModule.forRoot(routes)
     ],
@@ -50,7 +56,12 @@ import { routes } from './routes/routes';
         GoogleService,
         AuthService,
         LoggedInGuard,
-        GuestGuard
+        GuestGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthHeaderInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

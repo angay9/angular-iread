@@ -20,23 +20,23 @@ use Illuminate\Http\Request;
 //     'password'  =>  bcrypt('password'),
 // ]);
 
-Auth::loginUsingId(1);
+// Auth::loginUsingId(1);
 
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/logout', 'Auth\LoginController@logout');
+    Route::get('/user/books/{userId?}', 'BookController@getUserBooks');
+    Route::get('/user/activity', 'BookController@getActivity');
+    Route::post('/books/read/save/{book}', 'BookController@saveRead');
+    Route::post('/books/rate/{book}', 'BookController@rate');
+    Route::post('/books/addToShelf/{book}', 'BookController@addToShelf');
 
 });
 
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/logout', 'Auth\LoginController@logout');
 Route::get('/auth/check', 'Auth\LoginController@check');
-
-Route::get('/user/books/{userId?}', 'BookController@getUserBooks');
-Route::post('/books/read/save/{book}', 'BookController@saveRead');
-Route::post('/books/rate/{book}', 'BookController@rate');
-Route::post('/books/addToShelf/{book}', 'BookController@addToShelf');
-

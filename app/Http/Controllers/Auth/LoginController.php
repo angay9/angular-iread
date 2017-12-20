@@ -99,6 +99,7 @@ class LoginController extends Controller
             return response()->json(['success' => false, 'message' => 'Token not provided'], 400);
         }
 
+        
         try {
             $user = JWTAuth::authenticate($token);
         } catch (TokenExpiredException $e) {
