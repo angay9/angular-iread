@@ -2,19 +2,16 @@ import _ from "lodash";
 
 export class List {
     items: any[];
-    
+
     /**
      * Constructor
      *
      * @param  {Object} options
      * @return {void}
      */
-    constructor(options) {
-        let opts = Object.assign({}, options, {
-            items: []
-        });
+    constructor(items = []) {
 
-        this.items = opts.items;
+        this.items = items;
     }
 
     /**
@@ -82,8 +79,8 @@ export class List {
 
     /**
      * Find item by given predicate
-     * 
-     * @param {*Mixed} predicate 
+     *
+     * @param {*Mixed} predicate
      */
     find(predicate) {
         let index = _.findIndex(this.items, predicate);
@@ -184,7 +181,7 @@ export class List {
 
     /**
      * Execute function for each item
-     * 
+     *
      * @param {*Function} func
      */
     forEach(func) {
@@ -195,8 +192,8 @@ export class List {
 
     /**
      * Chunk size into chunks
-     * 
-     * @param {*Number} size 
+     *
+     * @param {*Number} size
      */
     chunk(size) {
         return _.chunk(this.items, size);

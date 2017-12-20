@@ -1,16 +1,8 @@
 <div class="shelve">
     <div class="container">
-        <form class="form-inline shelve__search-form" (ngSubmit)="searchBooks()">
-            <div class="form-group">
-                <input type="text" name="search" [(ngModel)]="search" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">
-                    <i class="fa fa-search fa-icon"></i> Search</button>
-            </div>
-        </form>
+        <h3>Your books</h3>
 
-        <div class="row book__row" *ngFor="let chunk of books.items.getItems() | chunk:3">
+        <div class="row book__row" *ngFor="let chunk of userBooks.items.getItems() | chunk:3">
 
             <div class="col-sm-4 margin-bottom-sm" *ngFor="let book of chunk">
                 <div class="thumbnail book__thumbnail">
@@ -30,25 +22,25 @@
                     <div class="book__thumbnail__footer padding-top-sm padding-bottom-sm">
                         <div class="btn-group btn-group-justified">
                             <a [href]="book.preview_link" target="_blank" class="btn btn-primary">Preview</a>
-                            <a href="#" class="btn btn-primary" (click)="markAsRead($event, book)">
-                                <i class="fa fa-check"></i>
+                            <a href="#" class="btn btn-primary" (click)="markAsRead($event, book, !book.isRead())">
+
+                                <i class="fa fa-check" [ngClass]="{'fa-check': !book.isRead(), 'fa-times': book.isRead()}"></i>
                             </a>
                         </div>
+
                         <div class="rating">
-                            <span class="rating__star" (click)="rateBook($event, book, 5)">☆</span>
-                            <span class="rating__star" (click)="rateBook($event, book, 4)">☆</span>
-                            <span class="rating__star" (click)="rateBook($event, book, 3)">☆</span>
-                            <span class="rating__star" (click)="rateBook($event, book, 2)">☆</span>
-                            <span class="rating__star" (click)="rateBook($event, book, 1)">☆</span>
+                            <span
+                                class="rating__star"
+                                (click)="rateBook($event, book, index)"
+                                *ngFor="let index of [5, 4, 3, 2, 1]"
+                                [ngClass]="{'checked': book.getRating() >= index}"
+                            >☆</span>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <app-paginator [pages]="books.totalPages" [activePage]="books.currentPage" [simple]="true" (onPaginationItemClicked)="setBooksPage($event)"
-            *ngIf="books.count > 0">
-        </app-paginator>
 
     </div>
 </div>

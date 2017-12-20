@@ -11451,6 +11451,7 @@ button.close {
 }
 
 .rating__star:hover:before,
+.rating__star.checked:before,
 .rating__star:hover ~ .rating__star:before {
   cursor: pointer;
   content: "\2605";
@@ -11619,5 +11620,23 @@ button.close {
 
 .fa-icon {
   margin-right: 10px;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.justify-center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.align-center {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 

@@ -9,7 +9,7 @@
         font-size: 35px;
 
         &:hover:before,
-        // &.checked:before,
+        &.checked:before,
         &:hover ~ &:before
         /* &.checked:before ~ &:before */ {
             cursor: pointer;

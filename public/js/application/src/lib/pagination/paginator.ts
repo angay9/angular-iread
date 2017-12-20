@@ -3,9 +3,9 @@ import { List } from '../list/list';
 export default class Paginator {
     items = new List([]);
     count = 0;
-    currentPage: 0;
-    limit: 0;
-    totalPages: 0;
+    currentPage = 0;
+    limit = 0;
+    totalPages = 0;
 
     /**
      * Constructor
@@ -23,24 +23,25 @@ export default class Paginator {
      * @param  {Object} options
      * @return {void}
      */
-    setOptions(options, ignoreMissing = false) {
-        
-        let opts = {};
-        if (!ignoreMissing) {
-            opts = Object.assign({}, {
-                items: new List([]),
-                count: 0,
-                currentPage: null,
-                limit: null,
-                totalPages: null
-            }, options);
-        } else {
-            opts = options;
+    setOptions(options) {
+
+        if (options.items !== undefined) {
+            this.items = options.items;
+        }
+        if (options.count !== undefined) {
+            this.count = options.count;
         }
 
-        Object.keys(opts).forEach(key => {
-            this[key] = opts[key];
-        });
+        if (options.currentPage !== undefined) {
+            this.currentPage = options.currentPage;
+        }
+
+        if (options.limit !== undefined) {
+            this.limit = options.limit;
+        }
+        if (options.totalPages !== undefined) {
+            this.totalPages = options.totalPages;
+        }
     }
 
     /**

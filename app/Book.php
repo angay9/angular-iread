@@ -60,4 +60,9 @@ class Book extends Model
         }
     }
 
+    public function userBooks()
+    {
+        return $this->hasMany(UserBook::class);
+    }
+
 }

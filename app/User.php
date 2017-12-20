@@ -26,4 +26,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function userBooks()
+    {
+        return $this->hasMany(UserBook::class);
+    }
+
+    public function books()
+    {
+        return $this->belongsToMany(
+            Book::class,
+            'user_books'
+        );
+    }
 }
