@@ -29,8 +29,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthService } from './services/auth/auth.service';
 import { routes } from './routes/routes';
 import { RequestOptions } from '@angular/http';
-import { AuthHeaderOptions } from "./http/auth_header_options";
 import { AuthHeaderInterceptor } from "./http/auth_header_interceptor";
+import { BaseUrlInterceptor } from "./http/base_url_interceptor";
 
 @NgModule({
     declarations: [
@@ -60,6 +60,11 @@ import { AuthHeaderInterceptor } from "./http/auth_header_interceptor";
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthHeaderInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: BaseUrlInterceptor,
             multi: true
         }
     ],

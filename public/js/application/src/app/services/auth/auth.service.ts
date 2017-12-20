@@ -10,7 +10,7 @@ export class AuthService {
     constructor(protected http: HttpClient) { }
 
     login(credentials) {
-        return this.http.post(`http://angular-iread.local/api/login`, {
+        return this.http.post(`login`, {
             email: credentials['email'],
             password: credentials['password']
         }).do((res:any) => {
@@ -23,7 +23,7 @@ export class AuthService {
     }
 
     logout() {
-        return this.http.post(`http://angular-iread.local/api/logout`, {token: AuthService.getToken()})
+        return this.http.post(`logout`, {token: AuthService.getToken()})
             .do(res => {
                 this.removeUserDataFromStorage();
             })
@@ -32,7 +32,7 @@ export class AuthService {
 
 
     register(data) {
-        return this.http.post(`http://angular-iread.local/api/register`, data)
+        return this.http.post(`register`, data)
             .do((res:any) => {
                 this.setUserDataToStorage(
                     res.data.user,
@@ -73,7 +73,7 @@ export class AuthService {
             return Observable.of(false);
         }
 
-        return this.http.get('http://angular-iread.local/api/auth/check')
+        return this.http.get('auth/check')
             .map(res => {
                 return true;
             }, err => {
@@ -85,7 +85,7 @@ export class AuthService {
     }
 
     loginUsingToken() {
-        return this.http.get('http://angular-iread.local/api/auth/check')
+        return this.http.get('auth/check')
             .map((res:any) => {
                 this.setUserDataToStorage(res.user, res.token);
 
