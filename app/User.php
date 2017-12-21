@@ -40,6 +40,25 @@ class User extends Authenticatable
         );
     }
 
+    public function getBooks()
+    {
+        $bookIds = UserBook::where('user_id', $this->id)->distinct()->pluck('book_id');
+
+        $books = Book::whereIn('id', function ($query) {
+                $query->from(with(new UserBook)->getTable())
+                    ->where('user_id', $this->id)
+                    ->distinct()
+                    ->select('book_id');
+            })
+            ->with(['userBooks' => function ($query) {
+                $query->where('user_id', $this->id);
+            }])
+            ->get()
+        ;
+
+        return $books;
+    }
+
     public function latestActivity($recordsLimit = 20)
     {
         return $this

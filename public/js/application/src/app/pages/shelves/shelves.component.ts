@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Paginator from '../../../lib/pagination/paginator.js';
 import { BooksService } from '../../services/books/books.service';
 import { Book } from '../../models/book';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
     selector: 'app-shelves',
@@ -20,7 +21,8 @@ export class ShelvesComponent implements OnInit {
 
 
     constructor(
-        protected booksService: BooksService
+        protected booksService: BooksService,
+        protected alertService: AlertService
     ) {
     }
 
@@ -54,7 +56,7 @@ export class ShelvesComponent implements OnInit {
                     book.user_books.push(res.user_book);
                 }
             }, err => {
-                alert('Error occured.');
+                this.alertService.error('Error occured.');
             });
     }
 
@@ -71,7 +73,7 @@ export class ShelvesComponent implements OnInit {
                 book.setRating(rating);
                 // alert('Book has been rated');
             }, err => {
-                alert('Error occured. ');
+                this.alertService.error('Error occured. ');
             })
         ;
     }

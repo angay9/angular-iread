@@ -18,31 +18,13 @@ class BookController extends Controller
             $request->get('book')
         );
         
-        $user = $auth->user();
         $isRead = (bool)$request->get('isRead');
+        $userBook = $book->read($isRead);
 
-        $userBook = UserBook::where([
-            'user_id' => $user->id,
-            'book_id' => $book->id,
-            'action_name' => UserBook::ACTION_READ,
-        ])->first();
-
-        if (!$userBook && $isRead) {
-            $userBook = UserBook::create([
-                'user_id' => $user->id,
-                'book_id' => $book->id,
-                'action_name' => UserBook::ACTION_READ,
-                'action_value' => 1
-            ]);
+        if ($userBook) {
             return [
-                'success' => true,
-                'user_book' => $userBook
-            ];
-        } else if ($userBook && !$isRead) {
-            $userBook->delete();
-
-            return [
-                'success'   =>  true
+                'success'   =>  true,
+                'user_book' =>  $userBook
             ];
         }
 
@@ -58,32 +40,17 @@ class BookController extends Controller
             ['external_id' => $bookExtId],
             $request->get('book')
         );
+
+        $userBook = $book->rate((int)$request->get('rating'));
         
-        $user = $auth->user();
-
-        $userBook = UserBook::where(
-            [
-                'user_id' => $user->id,
-                'book_id' => $book->id,
-                'action_name' => UserBook::ACTION_RATED,
-            ])->first()
-        ;
-        $data = [
-            'user_id' => $user->id,
-            'book_id' => $book->id,
-            'action_name' => UserBook::ACTION_RATED,
-            'action_value' => (int)$request->get('rating')
-        ];
-
-        if ($userBook) {
-            $userBook->update($data);
+        // Updated
+        if (!$userBook) {
 
             return [
-                'success' => true
+                'success' => true,
+                // 'user_book' => $userBook
             ];
         }
-        
-        $userBook = UserBook::create($data);
 
         return [
             'success' => true,
@@ -95,54 +62,19 @@ class BookController extends Controller
     {
         $user = $userId ? User::findOrFail($userId) : $auth->user();
 
-        $bookIds = UserBook::where('user_id', $user->id)->distinct()->pluck('book_id');
-        
-        $books = Book::whereIn('id', function ($query) use($user) {
-                $query->from(with(new UserBook)->getTable())
-                    ->where('user_id', $user->id)
-                    ->distinct()
-                    ->select('book_id')
-                ;
-            })
-            ->with(['userBooks' => function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            }])
-            ->get()
-        ;
-
-        
         return [
-            'books' => $books 
+            'books' => $user->getBooks() 
         ];
     }
 
-    public function addToShelf(Request $request, Guard $auth, $bookExtId)
+    public function addToShelf(Request $request, $bookExtId)
     {
         $book = Book::firstOrCreate(
             ['external_id' => $bookExtId],
             $request->get('book')
         );
 
-        $user = $auth->user();
-
-        $userBook = UserBook::where([
-            'user_id' => $user->id,
-            'book_id' => $book->id,
-            // 'action_name' => UserBook::ACTION_ADDED_TO_SHELF,
-        ])->first();
-
-        if ($userBook) {
-            throw new BookAlreadyAddedToShelfException("Book already added to shelf");
-        }
-        
-        $userBook = UserBook::create(
-            [
-                'user_id' => $user->id,
-                'book_id' => $book->id,
-                'action_name' => UserBook::ACTION_ADDED_TO_SHELF,
-                'action_value' => 1
-            ]
-        );
+        $userBook = $book->putOnShelf();
 
         return [
             'success' => true
