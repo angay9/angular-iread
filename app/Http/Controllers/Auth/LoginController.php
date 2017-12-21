@@ -51,7 +51,7 @@ class LoginController extends Controller
                 return response()->json(
                     [
                         'success' => false, 
-                        'message' => 'Invalid Credentials. Please make sure you entered the right information and you have verified your email address.'
+                        'message' => 'Invalid Credentials. Please make sure you entered the right information.'
                     ], 
                     401
                 );
@@ -98,12 +98,17 @@ class LoginController extends Controller
         if (!$token = JWTAuth::setRequest($request)->getToken()) {
             return response()->json(['success' => false, 'message' => 'Token not provided'], 400);
         }
-
         
         try {
             $user = JWTAuth::authenticate($token);
         } catch (TokenExpiredException $e) {
-            return response()->json(['success' => false, 'message' => 'Token expired'], $e->getStatusCode());
+            return response()->json(
+                [
+                    'success' => false, 
+                    'message' => 'Token expired',
+                ], 
+                $e->getStatusCode()
+            );
             
         } catch (JWTException $e) {
             return response()->json(['success' => false, 'message' => 'Token invalid'], $e->getStatusCode());

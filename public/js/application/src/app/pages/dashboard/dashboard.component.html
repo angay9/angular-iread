@@ -15,6 +15,7 @@
                         </h4> -->
                         <h5>
                              {{ activity.human_action_name }} <strong>{{ activity.book.title }}</strong>
+                             <span *ngIf="activity.action_name == 'rated'"> {{ activity.action_value }} stars</span>
                         </h5>
                         <a [href]="activity.book.preview_link" target="_blank" class="btn btn-primary">Preview</a>
 

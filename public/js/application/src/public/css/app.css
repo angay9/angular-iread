@@ -11458,6 +11458,14 @@ button.close {
   position: absolute;
 }
 
+.alert {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  max-width: 300px;
+  z-index: 100;
+}
+
 .margin-xs {
   margin: 10px;
 }

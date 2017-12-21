@@ -27,10 +27,13 @@ import { ExploreComponent } from './pages/explore/explore.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthService } from './services/auth/auth.service';
+import { AlertService } from './services/alert/alert.service';
+
 import { routes } from './routes/routes';
 import { RequestOptions } from '@angular/http';
 import { AuthHeaderInterceptor } from "./http/auth_header_interceptor";
 import { BaseUrlInterceptor } from "./http/base_url_interceptor";
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +46,7 @@ import { BaseUrlInterceptor } from "./http/base_url_interceptor";
         ExploreComponent,
         LoginComponent,
         RegisterComponent,
+        AlertComponent,
     ],
     imports: [
         BrowserModule,
@@ -57,6 +61,7 @@ import { BaseUrlInterceptor } from "./http/base_url_interceptor";
         AuthService,
         LoggedInGuard,
         GuestGuard,
+        AlertService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthHeaderInterceptor,

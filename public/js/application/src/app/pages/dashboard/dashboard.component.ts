@@ -10,7 +10,9 @@ export class DashboardComponent implements OnInit {
 
     userActivity: any[]
 
-    constructor(protected booksService: BooksService) {
+    constructor(
+        protected booksService: BooksService
+    ) {
 
     }
 

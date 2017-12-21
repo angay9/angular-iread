@@ -4,6 +4,7 @@ import Paginator from '../../../lib/pagination/paginator.js';
 import { BooksService } from '../../services/books/books.service';
 import _ from "lodash";
 import { Book } from '../../models/book';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
     selector: 'app-explore',
@@ -22,7 +23,8 @@ export class ExploreComponent implements OnInit {
 
     constructor(
         protected booksService: BooksService,
-        protected googleService: GoogleService
+        protected googleService: GoogleService,
+        protected alertService: AlertService
     ) { }
 
     ngOnInit() {
@@ -68,11 +70,11 @@ export class ExploreComponent implements OnInit {
 
         this.booksService.addToShelf(book)
             .subscribe(res => {
-                alert('Added to shelf');
+                this.alertService.success('Added to shelf');
             }, err => {
-                let message = err.json().message;
+                let message = err.error.message;
                 let showError = err.status >= 400 && err.status <= 499;
-                alert(message && showError ? message : 'Error occured');
+                this.alertService.error(message && showError ? message : 'Error occured');
             })
         ;
     }
