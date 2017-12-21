@@ -22,15 +22,12 @@ class BookController extends Controller
         $userBook = $book->read($isRead);
 
         if ($userBook) {
-            return [
-                'success'   =>  true,
-                'user_book' =>  $userBook
-            ];
+            return $this->respondSuccess([
+                'user_book' => $userBook
+            ]);
         }
 
-        return [
-            'success'   =>  true
-        ];
+        return $this->respondSuccess();
 
     }
 
@@ -46,25 +43,21 @@ class BookController extends Controller
         // Updated
         if (!$userBook) {
 
-            return [
-                'success' => true,
-                // 'user_book' => $userBook
-            ];
+            return $this->respondSuccess();
         }
 
-        return [
-            'success' => true,
-            'user_book' =>  $userBook
-        ];
+        return $this->respondSuccess([
+            'user_book' => $userBook
+        ]);
     }
 
     public function getUserBooks(Guard $auth, $userId = null)
     {
         $user = $userId ? User::findOrFail($userId) : $auth->user();
 
-        return [
+        return $this->respondSuccess([
             'books' => $user->getBooks() 
-        ];
+        ]);
     }
 
     public function addToShelf(Request $request, $bookExtId)
@@ -76,18 +69,15 @@ class BookController extends Controller
 
         $userBook = $book->putOnShelf();
 
-        return [
-            'success' => true
-        ];
+        return $this->respondSuccess();
     }
 
     public function getActivity()
     {
         $user = auth()->user();
 
-        return [
-            'success'   =>  true,
+        return $this->respondSuccess([
             'data'  =>  $user->latestActivity(20)
-        ];
+        ]);
     }
 }
