@@ -97,4 +97,21 @@ export class Book extends Model {
         return this;
     }
 
+    setReview(review) {
+        let ratingObj = this.getUserBooksObj({ 'action_name': 'reviewed' });
+
+        if (ratingObj) {
+            ratingObj['action_value'] = review;
+        }
+
+        return this;
+    }
+
+    // Meta properties
+    getReview() {
+        let ratingObj = this.getUserBooksObj({ 'action_name': 'reviewed' });
+
+        return ratingObj ? ratingObj['action_value'] : null;
+    }
+
 }

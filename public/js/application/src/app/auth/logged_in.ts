@@ -13,11 +13,10 @@ export class LoggedInGuard implements CanActivate {
     }
 
     canActivate(): Observable<boolean> {
-
+        // return Observable.of(true);
         return this.authService
             .isLoggedIn()
             .do(result => {
-
                 if (result === false) {
                     this.router.navigate(['login']);
                 }

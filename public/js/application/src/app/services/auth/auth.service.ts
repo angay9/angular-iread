@@ -52,8 +52,8 @@ export class AuthService {
     }
 
     getUser() {
-
         let user = localStorage.getItem('user');
+
         if (!user) {
             return null;
         }
@@ -86,11 +86,13 @@ export class AuthService {
 
     loginUsingToken() {
         return this.http.get('auth/check')
-            .map((res:any) => {
+            .subscribe((res:any) => {
                 this.setUserDataToStorage(res.user, res.token);
 
                 return true;
             }, err => {
+                this.removeUserDataFromStorage();
+
                 return false;
             })
         ;

@@ -72,6 +72,29 @@ class BookController extends Controller
         return $this->respondSuccess();
     }
 
+    public function review(Request $request, $bookExtId)
+    {
+        $book = Book::firstOrCreate(
+            ['external_id' => $bookExtId],
+            $request->get('book')
+        );
+
+        $this->validate($request, [
+            'review'    =>  'max:255|required'
+        ]);
+
+        $userBook = $book->review($request->get('review'));
+        // Updated
+        if (!$userBook) {
+            return $this->respondSuccess();
+        }
+        
+        // Created
+        return $this->respondSuccess([
+            'user_book' => $userBook
+        ]);
+    }
+
     public function getActivity()
     {
         $user = auth()->user();

@@ -1,7 +1,6 @@
 <div class="shelve">
     <div class="container">
         <h3>Your books</h3>
-
         <div class="row book__row" *ngFor="let chunk of userBooks.items.getItems() | chunk:3">
 
             <div class="col-sm-4 margin-bottom-sm" *ngFor="let book of chunk">
@@ -17,14 +16,21 @@
                         <p *ngIf="book.description">
                             {{ book.description.substr(0, 150) }}
                         </p>
+                        <hr>
+                        <strong>What you think about it:</strong>
+                        <p>
+                            {{ book.getReview()?.substr(0, 150) }}
+                        </p>
 
                     </div>
                     <div class="book__thumbnail__footer padding-top-sm padding-bottom-sm">
                         <div class="btn-group btn-group-justified">
                             <a [href]="book.preview_link" target="_blank" class="btn btn-primary">Preview</a>
                             <a href="#" class="btn btn-primary" (click)="markAsRead($event, book, !book.isRead())">
-
                                 <i class="fa fa-check" [ngClass]="{'fa-check': !book.isRead(), 'fa-times': book.isRead()}"></i>
+                            </a>
+                            <a href="#" class="btn btn-primary" (click)="openReviewModal($event, book)">
+                                Review
                             </a>
                         </div>
 
@@ -42,5 +48,26 @@
             </div>
         </div>
 
+
+        <app-modal
+            #modal
+            [saveBtnText]="'Review'"
+            [title]="book?.title"
+            (onModalSaveClicked)="reviewBook()"
+        >
+            <form action="">
+                <div class="form-group">
+                    <label for="" class="control-label">Review</label>
+                    <textarea
+                        name="review"
+                        cols="30"
+                        rows="10"
+                        class="form-control"
+                        [(ngModel)]="review"
+                    >{{ book?.getReview() }}</textarea>
+                </div>
+            </form>
+        </app-modal>
     </div>
+
 </div>

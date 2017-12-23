@@ -98,17 +98,13 @@ class LoginController extends Controller
         if (!$token = JWTAuth::setRequest($request)->getToken()) {
             return response()->json(['success' => false, 'message' => 'Token not provided'], 400);
         }
-        
+
         try {
             $user = JWTAuth::authenticate($token);
         } catch (TokenExpiredException $e) {
-            return response()->json(
-                [
-                    'success' => false, 
-                    'message' => 'Token expired',
-                ], 
-                $e->getStatusCode()
-            );
+            $newToken = JWTAuth::setRequest($request)->parseToken()->refresh();
+            
+            return response()->header('Authorization', 'Bearer ' . $newToken);
             
         } catch (JWTException $e) {
             return response()->json(['success' => false, 'message' => 'Token invalid'], $e->getStatusCode());

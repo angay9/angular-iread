@@ -34,6 +34,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('/books/read/save/{book}', 'BookController@saveRead');
     Route::post('/books/rate/{book}', 'BookController@rate');
     Route::post('/books/addToShelf/{book}', 'BookController@addToShelf');
+    Route::post('/books/review/{book}', 'BookController@review');
 
 });
 

@@ -10,6 +10,7 @@ class UserBook extends Model
     const ACTION_IN_PROGRESS = 'in_progress';
     const ACTION_RATED = 'rated';
     const ACTION_ADDED_TO_SHELF = 'added_to_shelf';
+    const ACTION_REVIEWED = 'reviewed';
 
     protected $guarded = [];
 
@@ -36,6 +37,9 @@ class UserBook extends Model
 
             case static::ACTION_ADDED_TO_SHELF:
                 return 'Added to shelf';
+
+            case static::ACTION_ADDED_TO_SHELF:
+                return 'Reviewed';
             
             default:
                 return '';

@@ -145,7 +145,6 @@ class Book extends Model
         ]);
 
         return $userBook;
-
     }
 
     public function findUserBook($actionName)
@@ -157,6 +156,23 @@ class Book extends Model
             'book_id' => $this->id,
             'action_name' => $actionName,
         ])->first();
+    }
+
+    public function review($review)
+    {
+        $user = auth()->user();
+        $userBook = $this->findUserBook(UserBook::ACTION_REVIEWED);
+
+        if ($userBook) {
+            $userBook->update([
+                'action_name' => UserBook::ACTION_REVIEWED,
+                'action_value' => $review
+            ]);
+
+            return null;
+        }
+
+        return $this->createUserBook(UserBook::ACTION_REVIEWED, $review);
     }
 
 }

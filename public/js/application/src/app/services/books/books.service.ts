@@ -43,4 +43,11 @@ export class BooksService {
             'user/activity'
         );
     }
+
+    review(book, review) {
+        return this.http.post(
+            `books/review/${book.external_id}`,
+            { review: review, book: book }
+        );
+    }
 }

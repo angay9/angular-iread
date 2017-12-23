@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import Paginator from '../../../lib/pagination/paginator.js';
 import { BooksService } from '../../services/books/books.service';
 import { Book } from '../../models/book';
+import { ModalComponent } from '../../components/modal/modal.component';
 import { AlertService } from '../../services/alert/alert.service';
+import { formatValidationErrors } from '../../helpers/format_validation_errors';
+
 
 @Component({
     selector: 'app-shelves',
@@ -12,13 +15,19 @@ import { AlertService } from '../../services/alert/alert.service';
 })
 export class ShelvesComponent implements OnInit {
 
-    userBooks = new Paginator({
+    protected userBooks = new Paginator({
         count: 0,
         limit: 10000000,
         totalPages: 0,
         currentPage: 0,
     });
 
+    protected book: any;
+    protected showRateModal:boolean = false;
+    protected review = '';
+
+    @ViewChild('modal')
+    protected modal: ModalComponent;
 
     constructor(
         protected booksService: BooksService,
@@ -76,6 +85,43 @@ export class ShelvesComponent implements OnInit {
                 this.alertService.error('Error occured. ');
             })
         ;
+    }
+
+    openReviewModal(e, book) {
+        e.preventDefault();
+
+        this.book = book;
+        this.review = book.getReview();
+
+        this.modal.open();
+    }
+
+    reviewBook() {
+        this.booksService.review(this.book, this.review)
+            .subscribe((res:any) => {
+                if (res.user_book) {
+                    this.book.user_books.push(res.user_book);
+                }
+
+                this.book.setReview(this.review);
+
+                this.modal.close();
+                this.book = null;
+                this.review = '';
+            }, err => {
+                if (err.status == 422) {
+
+                    this.alertService.error(
+                        formatValidationErrors(err.error.errors),
+                        5000
+                    );
+
+                    return;
+                }
+            })
+        ;
+
+        // this.modal.close();
     }
 
 }

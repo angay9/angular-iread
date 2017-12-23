@@ -34,6 +34,7 @@ import { RequestOptions } from '@angular/http';
 import { AuthHeaderInterceptor } from "./http/auth_header_interceptor";
 import { BaseUrlInterceptor } from "./http/base_url_interceptor";
 import { AlertComponent } from './components/alert/alert.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { AlertComponent } from './components/alert/alert.component';
         LoginComponent,
         RegisterComponent,
         AlertComponent,
+        ModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -71,7 +73,7 @@ import { AlertComponent } from './components/alert/alert.component';
             provide: HTTP_INTERCEPTORS,
             useClass: BaseUrlInterceptor,
             multi: true
-        }
+        },
     ],
     bootstrap: [AppComponent]
 })
