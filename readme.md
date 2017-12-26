@@ -1,4 +1,5 @@
 ## Laravel 5 and Angular 5 application
+http://iread.demo-server.ovh
 
 Features
  - Login/Registration
